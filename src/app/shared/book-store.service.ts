@@ -46,7 +46,6 @@ export class BookStoreService {
     );
   }
 
-  // NEU
   update(book: Book): Observable<any> {
     return this.http.put(
       `${this.api}/book/${book.isbn}`,
@@ -74,6 +73,14 @@ export class BookStoreService {
       map(booksRaw =>
         booksRaw.map(b => BookFactory.fromRaw(b)),
       ),
+      catchError(this.errorHandler)
+    );
+  }
+
+  check(isbn: string): Observable<Boolean> {
+    return this.http.get(
+      `${this.api}/book/${isbn}/check`
+    ).pipe(
       catchError(this.errorHandler)
     );
   }
